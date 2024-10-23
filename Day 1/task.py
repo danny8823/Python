@@ -1,8 +1,9 @@
-# CONCATENATE
-print('Hello world!\nHello world!\nHello world!')
+name = input('What is your name?')
+james = 12345678910
+print(name)
+print(james)
 
-print('Hello' + ' world' + '!')
+username = 'danny'
+length = len(username)
 
-print('Hello' + ' ' + 'Danny!')
-
-print('Hello ' + input('What is your name?') + "!")
+print(length)
