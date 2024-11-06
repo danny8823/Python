@@ -1,55 +1,54 @@
-import random
-
-run = input('Type run to start game!')
-
-ATTEMPTS = 0
-NUM_TO_GUESS = random.randint(1, 100)
-GAME_OVER = False
+from random import randint
 
 
-def set_attempts(response):
-    global ATTEMPTS
-    if response == "easy":
-        ATTEMPTS = 10
-    elif response == "hard":
-        ATTEMPTS = 5
+EASY_LEVEL_TURNS = 10
+HARD_LEVEL_TURNS = 5
+
+
+# Function to check users' guess against actual answer
+def check_answer(user_guess, actual_answer, turns):
+    """Checks answer against guess, returns the number of turns remaining."""
+    if user_guess > actual_answer:
+        print("Too high.")
+        return turns - 1
+    elif user_guess < actual_answer:
+        print("Too low.")
+        return turns - 1
     else:
-        return print('Please input the correct response.')
+        print(f"You got it! The answer was {actual_answer}")
 
 
-def game_start():
-    global ATTEMPTS
-    global NUM_TO_GUESS
-    game_over = False
-    print('Welcome to the Number Guessing Game!')
+# Function to set difficulty
+def set_difficulty():
+    level = input("Choose a difficulty. Type 'easy' or 'hard': ")
+    if level == "easy":
+        return EASY_LEVEL_TURNS
+    else:
+        return HARD_LEVEL_TURNS
+
+
+def game():
+    # Choosing a random number between 1 and 100.
+    print("Welcome to the Number Guessing Game!")
     print("I'm thinking of a number between 1 and 100.")
-    difficulty = input('Choose a difficulty. Type "easy" or "hard"')
-    set_attempts(difficulty)
+    answer = randint(1, 100)
+    print(f"Pssst, the correct answer is {answer}")
 
-    while not game_over:
-        if ATTEMPTS == 0:
-            game_over = True
-            print('You lose')
-            play_again = input('Do you want to play again? "yes" or "no"?')
-            if play_again == 'yes':
-                game_start()
-            else:
-                return print('Thanks for playing!')
-        else:
-            guess = int(input('Make a guess: '))
+    turns = set_difficulty()
 
-            if guess == NUM_TO_GUESS:
-                print(f'Correct guess! {NUM_TO_GUESS}')
-                game_over = True
-            elif guess < NUM_TO_GUESS:
-                ATTEMPTS -= 1
-                print(ATTEMPTS)
-                print('Too low')
-            elif guess > NUM_TO_GUESS:
-                ATTEMPTS -= 1
-                print(ATTEMPTS)
-                print('Too high')
+    # Repeat the guessing functionality if they get it wrong.
+    guess = 0
+    while guess != answer:
+        print(f"You have {turns} attempts remaining to guess the number.")
+        # Let the user guess a number
+        guess = int(input("Make a guess: "))
+        # Track the number of turns and reduce by 1 if they get it wrong
+        turns = check_answer(guess, answer, turns)
+        if turns == 0:
+            print("You've run out of guesses, you lose.")
+            return
+        elif guess != answer:
+            print("Guess again.")
 
 
-if run == 'run':
-    game_start()
+game()
