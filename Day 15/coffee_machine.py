@@ -13,6 +13,7 @@ resources = {
 
 
 def report(resources):
+    print('RESOURCE REPORT:  ')
     print("Water: ", resources['water'], 'ml')
     print("Milk: ", resources['milk'], 'ml')
     print("Coffee: ", resources['coffee'], 'g')
@@ -29,42 +30,45 @@ def check_resources(order):
     check = 0
     if order == 'espresso':
         if ingredients['water'] <= resources['water']:
-            print('enough')
             check += 1
-        else:
-            print('not enough')
         if ingredients['coffee'] <= resources['coffee']:
-            print('enough')
             check += 2
-        else:
-            print('not enough')
     else:
         if ingredients['water'] <= resources['water']:
-            print('enough')
             check += 1
-        else:
-            print('not enough')
         if ingredients['milk'] <= resources['milk']:
-            print('enough')
             check += 1
-        else:
-            print('not enough')
         if ingredients['coffee'] <= resources['coffee']:
-            print('enough')
             check += 1
-        else:
-            print('not enough')
+
+    return check
 
 
-def process_order(order):
+def process_order(order, resources):
     if order == 'off':
         return print('Machine off.')
     elif order == 'espresso':
-        print('espresso')
+        resources['water'] = resources['water'] - \
+            coffee_menu[order]['ingredients']['water']
+        resources['coffee'] = resources['coffee'] - \
+            coffee_menu[order]['ingredients']['coffee']
+        print('Here is your espresso!')
     elif order == 'latte':
-        print('latte')
+        resources['water'] = resources['water'] - \
+            coffee_menu[order]['ingredients']['water']
+        resources['milk'] = resources['milk'] - \
+            coffee_menu[order]['ingredients']['milk']
+        resources['coffee'] = resources['coffee'] - \
+            coffee_menu[order]['ingredients']['coffee']
+        print('Here is your latte!')
     elif order == 'cappucino':
-        print('cappucino')
+        resources['water'] = resources['water'] - \
+            coffee_menu[order]['ingredients']['water']
+        resources['milk'] = resources['milk'] - \
+            coffee_menu[order]['ingredients']['milk']
+        resources['coffee'] = resources['coffee'] - \
+            coffee_menu[order]['ingredients']['coffee']
+        print('Here is your cappucino!')
 
 
 def inserted_coins(amount, coin):
@@ -89,25 +93,51 @@ def transaction(total, order):
     change = 0
     if total < coffee_menu[order]['cost']:
         print("Sorry that's not enough money.")
-        return False
     elif total == coffee_menu[order]['cost']:
         print("Transaction successful, no change.")
-        return True
     else:
         change += total - coffee_menu[order]['cost']
         print(f"Transaction successful, you're change is ${change}")
-        return True
 
 
 def start_machine():
+    global total_coins
     machine = False
+    done_insert = False
     order = input('What would you like? (espresso,latte,cappuccino):  ')
+
     while not machine:
-        print(order)
-        print(f'${check_price(order)}')
-        report(resources)
-        check_resources(order)
-        machine = True
+        if order == 'off':
+            machine = True
+        else:
+            print(f'{order} is ${check_price(order)}')
+            print('\n' * 4)
+            while not done_insert:
+                amount = input(
+                    'How many coins? 1,2,3...etc. If done type "done"')
+                print('\n' * 4)
+                if amount == 'done':
+                    done_insert = True
+                else:
+                    coin = input(
+                        f'Insert your coins. {amount} and pick a coin "quarter, dime, nickle, penny"')
+                    print('\n' * 4)
+                    inserted_coins(int(amount), coin)
+                    print('\n' * 4)
+                    print(total_coins, " inserted.")
+                    print('\n' * 4)
+            report(resources)
+            if check_resources(order) == 3 and total_coins >= check_price(order):
+                transaction(total_coins, order)
+                print('\n' * 4)
+                process_order(order, resources)
+                print('\n' * 4)
+                resources['money'] += total_coins
+                total_coins = 0
+                print('\n' * 4)
+                report(resources)
+                print('\n' * 4)
+                start_machine()
 
 
 start_machine()
