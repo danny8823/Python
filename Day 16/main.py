@@ -1,53 +1,38 @@
-import turtle
-import another_module
-from turtle import Turtle, Screen
-from prettytable import PrettyTable
-# print(another_module.another_variable)
+from menu import Menu, MenuItem
+from coffee_maker import CoffeeMaker
+from money_machine import MoneyMachine
 
-# timmy = Turtle()
-# print(timmy)
-# timmy.shape("turtle")
-# timmy.color("red")
-# my_screen = Screen()
+menu = Menu()
+moneyMachine = MoneyMachine()
 
-# print(my_screen.canvheight)
-# timmy.right(10)
-# timmy.forward(100)
-# timmy.left(10)
-# timmy.forward(100)
-# timmy.right(10)
-# timmy.forward(100)
-# timmy.forward(100)
-# timmy.left(10)
-# timmy.forward(200)
-# timmy.right(10)
-# timmy.forward(200)
-# timmy.pos()
-# my_screen.exitonclick()
+latte = MenuItem(name='latte', water=200, milk=150,  coffee=24, cost=2.5)
+espresso = MenuItem(name='espresso', water=50, milk=0, coffee=18, cost=1.5)
+cappuccino = MenuItem(name='cappucino', water=250,
+                      milk=100, coffee=24, cost=3.0)
 
-table = PrettyTable()
-table.add_column = ("Pokemon Name", ["Pickachu", "Squirtle", "Charmander"])
-table.add_column = ("Type", ["Electric", "Water", "Fire"])
-print(table)
+coffeeMaker = CoffeeMaker()
+
+menu_items = menu.get_items()
 
 
-# def add_data():
-#     table_on = True
+machine_power_on = True
 
-#     while table_on:
-#         name = input('What is your name?')
-#         age = int(input('What is your age?'))
-#         title = input('teacher or student?')
-
-#         table.add_row([name, age, title])
-
-#         print(table)
-#         add_more = input('Do you wish to add more data? type "y" or "n".')
-#         if add_more == 'y':
-#             add_data()
-#         else:
-#             table_on = False
-
-#     print('Done')
-#     print('Final Table')
-#     print(table)
+while machine_power_on:
+    user_order = input(f"What would you like to order? ({menu_items}):")
+    if user_order == 'off':
+        print('Machine powering down')
+        machine_power_on = False
+    elif user_order == 'report':
+        print('Machine report')
+        print(coffeeMaker.report())
+    elif user_order == 'latte':
+        if moneyMachine.make_payment(latte.cost) == True:
+            print(coffeeMaker.make_coffee(latte))
+    elif user_order == 'espresso':
+        if moneyMachine.make_payment(espresso.cost) == True:
+            print(coffeeMaker.make_coffee(espresso))
+    elif user_order == 'cappuccino':
+        if moneyMachine.make_payment(cappuccino.cost) == True:
+            print(coffeeMaker.make_coffee(cappuccino))
+    else:
+        print('Wrong prompt')
