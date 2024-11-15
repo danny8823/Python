@@ -18,7 +18,7 @@ class Fish(Animal):
         print('Moving in water.')
 
 
-nemo = Fish()
-nemo.swim()
-nemo.breathe()
-print(nemo.num_eyes)
+piano_keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+piano_tuple = ("do", "re", "mi", "fa", "so", "la", "li")
+print(piano_keys[2:5:2])
+print(piano_tuple[2:5])
