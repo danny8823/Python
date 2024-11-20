@@ -19,8 +19,7 @@ turtle.shape(image)
 
 game_on = True
 score = 0
-game_data = {'guessed_states': [],
-             'missing_states': []}
+guessed_states = []
 
 while game_on:
 
@@ -34,17 +33,15 @@ while game_on:
         game_on = False
 
     for state in state_list:
-        if answer_state == 'Exit':
-            missing_states = []
-            for state in state_list:
-                if state not in game_data['guessed_states']:
-                    game_data['missing_states'].append(state)
-            new_data = pandas.DataFrame(game_data['missing_states'])
+        if answer_state.title() == 'Exit':
+            missing_states = [
+                state for state in state_list if state not in guessed_states]
+            new_data = pandas.DataFrame(missing_states)
             new_data.to_csv(
                 "/Users/danny714/Desktop/Python/Day 25/us-states-game/new_game_data.csv")
             break
         if answer_state.title() == state:
-            game_data['guessed_states'].append(answer_state.title())
+            guessed_states.append(answer_state.title())
             score += 1
             state_index = state_list.index(state)
             State_Names.write_state(
