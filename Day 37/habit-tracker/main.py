@@ -3,7 +3,7 @@ from datetime import datetime
 
 pixela_endpoint = 'https://pixe.la/v1/users'
 USERNAME = "danny714"
-TOKEN = "lololol123"
+# TOKEN = "lololol123"
 # user_params = {
 #     "token": "lololol123",
 #     "username": "danny714",
