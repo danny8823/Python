@@ -1,17 +1,21 @@
 import time
-# def outer_function(n, n1):
-#     answer = n+n1
-
-#     def nested_function(answer):
-#         print('innie')
-#         print(answer*2)
-
-#     return nested_function(answer)
 
 
-# inner_function = outer_function(5, 2)
+def outer_function(n, n1):
+    answer = n+n1
+
+    def nested_function(answer):
+        print('innie')
+        print(answer*2)
+
+    return nested_function(answer)
+
+
+inner_function = outer_function(5, 2)
 
 #! PYTHON DECORATOR
+
+
 def plus_num(num1, num2):
     return print(num1 + num2)
 
