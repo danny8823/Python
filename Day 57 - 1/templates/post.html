@@ -14,21 +14,16 @@
       <div class="top">
         <div class="title"><h1>My Blog</h1></div>
       </div>
-      {% for blog in blog_data %}
       <div class="content">
         <div class="card">
-          <h2>{{blog.title}}</h2>
-          <p class="text">{{blog.body}}</p>
-          <a
-            href="{{url_for('blog_page', title=blog.title, content=blog.body)}}"
-            >Read</a
-          >
+          <h1>{{post.title}}</h1>
+          <h2>{{post.subtitle}}</h2>
+          <p>{{post.body}}</p>
         </div>
       </div>
-      {% endfor%}
     </div>
   </body>
   <footer>
-    <p>Made with ♥️ in London.</p>
+    <p>Made by Danny</p>
   </footer>
 </html>
