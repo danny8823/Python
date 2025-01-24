@@ -7,6 +7,7 @@ post_objects = []
 for post in posts:
     post_obj = Post(post["id"], post["title"], post["subtitle"], post["body"])
     post_objects.append(post_obj)
+
 app = Flask(__name__)
 
 
