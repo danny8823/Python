@@ -91,7 +91,7 @@ def find_movie():
                                 "api_key": MOVIE_DB_API_KEY, "language": "en-US"})
         data = response.json()
         new_movie = Movie(
-            title=data["title"],
+            title=data["title"]
             year=data["release_date"].split("-")[0],
             img_url=f"{MOVIE_DB_IMAGE_URL}{data['poster_path']}",
             description=data["overview"]
